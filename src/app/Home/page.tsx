@@ -1,53 +1,91 @@
 "use client";
 import NavBar from "@/components/navbar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function HomePage() {
+  // 1. حالة لتحديد نوع الجهاز (مبدئياً نفترض أنه كبير/سطح مكتب)
+  const [isMobile, setIsMobile] = useState(false);
+  // 2. حالة لتتبع جاهزية الفيديو (للانتقال السلس على الـ Desktop)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  
+
+  // الكود القديم: دالة تُشغل عند جاهزية الفيديو
   const handleCanPlayThrough = () => {
-    // استخدم تأخير بسيط لجعل الانتقال سلسًا
     setTimeout(() => {
-        setIsVideoLoaded(true);
+      setIsVideoLoaded(true);
     }, 100); 
   };
+  
+  // 3. useEffect لتحديد نوع الجهاز عند تحميل المكون
+  useEffect(() => {
+    // تحديد Mobile بناءً على عرض الشاشة أو User Agent (يُفضل عرض الشاشة)
+    const checkMobile = () => {
+      // نعتبر أي شاشة عرضها أقل من 768 بكسل (عرض الأجهزة اللوحية الصغرى) كجهاز محمول
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile); // للتأكد عند تغيير حجم النافذة
+
+    return () => {
+      window.removeEventListener('resize', checkMobile); // تنظيف الـ Event Listener
+    };
+  }, []); // يعمل مرة واحدة عند تحميل المكون
+
+  // مسار الـ CDN الذي تم تكوينه
+  const cdnVideoUrl = "https://[اسم-نقطة-نهاية-الـ-CDN].azureedge.net/videocontainer/Futuristic_Smart_Vest_Macro_Shot.mp4";
+  // مسار الصورة الثابتة
+  const placeholderImageUrl = "/images/video-placeholder-frame.jpg";
+
+  // محتوى الخلفية (الفيديو أو الصورة)
+  const BackgroundComponent = () => {
+    if (isMobile) {
+      // 4. على الهاتف: نعرض صورة ثابتة فقط كخلفية
+      return (
+        <div 
+          className="absolute w-full h-full object-cover bg-cover bg-center"
+          style={{ backgroundImage: `url(${placeholderImageUrl})` }}
+        ></div>
+      );
+    } else {
+      // 5. على سطح المكتب: نعرض الفيديو مع الانتقال السلس
+      return (
+        <>
+          {/* طبقة التعتيم السوداء المؤقتة */}
+          <div
+            className={`absolute inset-0 z-20 transition-opacity duration-700 ease-in ${
+              isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            } bg-black`}
+          ></div>
+          
+          <video
+            className="absolute w-full h-full object-cover"
+            poster={placeholderImageUrl} // كخلفية سريعة قبل التحميل
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            onCanPlayThrough={handleCanPlayThrough}
+          >
+            <source 
+              src={cdnVideoUrl} 
+              type="video/mp4" 
+            />
+            Your browser does not support the video tag.
+          </video>
+        </>
+      );
+    }
+  };
+
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-black">
       
-      {/* طبقة التعتيم السوداء المؤقتة */}
-      <div
-        className={`absolute inset-0 z-20 transition-opacity duration-700 ease-in ${
-          isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        } bg-black`}
-      ></div>
-
-      <video
-        className="absolute w-full h-full object-cover"
-        // **الأهم:** وضع الصورة الثابتة كـ Poster لتكون الخلفية الافتراضية على الهواتف
-        poster="/images/video-placeholder-frame.jpg" 
-        
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto" 
-        onCanPlayThrough={handleCanPlayThrough}
-      >
-        {/*
-          **هنا الحل الفعال لتحميل الفيديو المشروط:**
-          1. يفضل توفير نسخة WebM (أفضل ضغطاً)
-          2. التأكد من أن الفيديو الموجود على السيرفر هو أصغر حجم ممكن
-        */}
-        {/* <source src="/videos/my-video.webm" type="video/webm" media="(min-width: 768px)" /> */}
-        <source 
-          src="https://myone.blob.core.windows.net/videocontainer/Futuristic_Smart_Vest_Macro_Shot.mp4" 
-          type="video/mp4" 
-        />
-        Your browser does not support the video tag.
-      </video>
+      {/* عرض مكون الخلفية المشروط */}
+      <BackgroundComponent />
       
-      {/* المحتوى الأمامي */}
+      {/* المحتوى الأمامي (يجب أن يكون z-index أعلى من z-20) */}
       <NavBar />
       <div className="absolute w-full h-full bg-black/50"></div>
       <div className="relative z-30 flex flex-col items-center justify-center h-full text-center px-4">
