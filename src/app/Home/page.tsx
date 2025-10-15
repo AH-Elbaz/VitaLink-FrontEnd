@@ -41,7 +41,7 @@ export default function HomePage() {
         */}
         {/* <source src="/videos/my-video.webm" type="video/webm" media="(min-width: 768px)" /> */}
         <source 
-          src="https://myone.blob.core.windows.net/videocontainer/Futuristic_Smart_Vest_Macro_Shot.mp4" 
+          src="/videos/bg.mp4"
           type="video/mp4" 
         />
         Your browser does not support the video tag.
