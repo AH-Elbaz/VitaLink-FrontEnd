@@ -1,8 +1,7 @@
-# 🚀 Build and deploy a Next.js / Node.js front-end app to Azure Web App
-# Docs: https://github.com/Azure/webapps-deploy
-# Author: ChatGPT (optimized for low storage)
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js front-end app to Azure Web App - vitalink
+name: Build and deploy Node.js app to Azure Web App - vitalink
 
 on:
   push:
@@ -14,75 +13,60 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read # required for actions/checkout
+      contents: read # This is required for actions/checkout
 
     steps:
-      - name: 🧩 Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '22.x'
 
-      - name: 📦 Install dependencies
-        run: npm ci
-
-      - name: 🏗️ Build project
-        run: npm run build --if-present
-
-      - name: 📤 Export static files (reduce package size)
+      - name: Install dependencies and build project
         run: |
-          if [ -f package.json ] && grep -q '"export"' package.json; then
-            npm run export
-          else
-            mkdir -p out && cp -r public/* out/ || true
-          fi
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
-      - name: 🧹 Clean unnecessary files before upload
+      # ✅ نسخ الفيديوهات والصور من مجلد public إلى مجلد out
+      - name: 🪄 Copy static media files
         run: |
-          rm -rf node_modules
-          rm -rf .next/cache || true
-          rm -rf tmp || true
+          mkdir -p out/videos
+          mkdir -p out/images
+          cp -r public/videos/* out/videos/ || true
+          cp -r public/images/* out/images/ || true
 
-      - name: 📦 Upload artifact for deployment
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: build-output
-          path: out
+          name: node-app
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write # required for JWT
-      contents: read # required for checkout
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
 
     steps:
-      - name: 📥 Download build artifact
+      - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: build-output
-          path: ./out
-
-      - name: 🔐 Login to Azure
+          name: node-app
+      
+      - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_ED3CD9D9CDE8421286506CB28E7471ED }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_234A0AFA252D49A6B1FFCC1A57BD002C }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1E54A3930B0247A7BF2961909C0CF35A }}
 
-      - name: 🧼 Free up disk space (prevent "not enough space" error)
-        run: |
-          echo "Cleaning temp folders..."
-          rm -rf /tmp/* || true
-          rm -rf $HOME/.npm || true
-          rm -rf $HOME/.cache || true
-
-      - name: 🚀 Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
         with:
           app-name: 'vitalink'
           slot-name: 'Production'
-          package: ./out
+          package: .
