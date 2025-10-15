@@ -4,9 +4,8 @@ import React, { useState } from "react";
 
 export default function HomePage() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-
+  
   const handleCanPlayThrough = () => {
-    // استخدم تأخير بسيط لجعل الانتقال سلسًا
     setTimeout(() => {
         setIsVideoLoaded(true);
     }, 100); 
@@ -14,7 +13,7 @@ export default function HomePage() {
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-black">
-
+      
       {/* طبقة التعتيم السوداء المؤقتة */}
       <div
         className={`absolute inset-0 z-20 transition-opacity duration-700 ease-in ${
@@ -34,19 +33,20 @@ export default function HomePage() {
       >
         <source 
           // **رابط الفيديو المضغوط المحلي (Netlify CDN)**
-          src="/videos/optimized_video.mp4" 
+          // تأكد من أن الملف موجود في public/videos/
+          src="/videos/bg.mp4"
           type="video/mp4" 
         />
         Your browser does not support the video tag.
       </video>
-
+      
       {/* المحتوى الأمامي */}
       <NavBar />
       <div className="absolute w-full h-full bg-black/50"></div>
       <div className="relative z-30 flex flex-col items-center justify-center h-full text-center px-4">
         <h1
-          // **تمت إضافة الفئة لتطبيق خط Inter الجريء**
-          className="text-white font-extrabold mb-6 font-inter-heading" 
+          // **الخط Inter، و السمك Bold (700) للحصول على سمك متوسط**
+          className="text-white font-bold mb-6 font-inter-heading" 
           style={{fontSize: '4rem', lineHeight: '1.1'}}
         >
           Understand your health from the<br />
