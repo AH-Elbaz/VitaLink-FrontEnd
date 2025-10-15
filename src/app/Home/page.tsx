@@ -3,40 +3,19 @@ import NavBar from "@/components/navbar";
 import React, { useState } from "react";
 
 export default function HomePage() {
-  // 1. حالة لتتبع جاهزية الفيديو
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   
-  // 2. دالة تُشغل عندما يصبح الفيديو جاهزًا للتشغيل بدون توقف
   const handleCanPlayThrough = () => {
-    // نستخدم setTimeout لضمان أن المتصفح قد بدأ فعلاً تشغيل الفيديو
+    // استخدم تأخير بسيط لجعل الانتقال سلسًا
     setTimeout(() => {
         setIsVideoLoaded(true);
     }, 100); 
   };
 
-  // 3. (اختياري لكن مفيد) إذا لم يعمل التشغيل التلقائي، يمكن للمستخدم النقر
-  const handleVideoClick = (e: React.MouseEvent<HTMLVideoElement>) => {
-    const video = e.currentTarget;
-    if (video.paused) {
-      video.play().catch(error => {
-        console.error("Autoplay was blocked even on click:", error);
-      });
-    }
-    // بمجرد النقر والتشغيل، نعتبره جاهزاً
-    if (!isVideoLoaded) {
-        setIsVideoLoaded(true);
-    }
-  };
-
-
   return (
-    // الخلفية الأساسية سوداء
     <div className="relative w-full h-screen overflow-hidden bg-black">
       
-      {/* طبقة التعتيم السوداء المؤقتة (Black Overlay)
-        تغطية كاملة مع z-index عالي (z-20) 
-        تختفي (opacity-0) ببطء (duration-700) فقط عندما يكون الفيديو جاهزًا (isVideoLoaded: true)
-      */}
+      {/* طبقة التعتيم السوداء المؤقتة */}
       <div
         className={`absolute inset-0 z-20 transition-opacity duration-700 ease-in ${
           isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
@@ -45,29 +24,22 @@ export default function HomePage() {
 
       <video
         className="absolute w-full h-full object-cover"
-        // قم بتحسين وضغط الفيديو لضمان عمل هذا الحل بكفاءة
-        // يفضل توفير WebM أيضاً
-        // src="https://myone.blob.core.windows.net/videocontainer/Futuristic_Smart_Vest_Macro_Shot.mp4" 
-        
-        // **الأهم:** استخدام صورة بوستر احتياطية (تظهر مكان اللون الأسود إذا لم يتمكن المتصفح من تحميل الفيديو بسرعة)
+        // **الأهم:** وضع الصورة الثابتة كـ Poster لتكون الخلفية الافتراضية على الهواتف
         poster="/images/video-placeholder-frame.jpg" 
         
         autoPlay
         loop
         muted
         playsInline
-        preload="auto" // يطلب التحميل المسبق لضمان التشغيل السريع
-
-        // ربط دالة الجاهزية
+        preload="auto" 
         onCanPlayThrough={handleCanPlayThrough}
-        // ربط دالة النقر (كإجراء احتياطي على الهواتف)
-        onClick={handleVideoClick} 
       >
         {/*
-          **هنا يجب عليك إضافة مصادر متعددة للفيديو**
-          لضمان أقصى توافق على جميع المتصفحات، خاصة الهواتف
+          **هنا الحل الفعال لتحميل الفيديو المشروط:**
+          1. يفضل توفير نسخة WebM (أفضل ضغطاً)
+          2. التأكد من أن الفيديو الموجود على السيرفر هو أصغر حجم ممكن
         */}
-        {/* <source src="/videos/my-video.webm" type="video/webm" /> */}
+        {/* <source src="/videos/my-video.webm" type="video/webm" media="(min-width: 768px)" /> */}
         <source 
           src="https://myone.blob.core.windows.net/videocontainer/Futuristic_Smart_Vest_Macro_Shot.mp4" 
           type="video/mp4" 
@@ -75,7 +47,7 @@ export default function HomePage() {
         Your browser does not support the video tag.
       </video>
       
-      {/* باقي المحتوى الأمامي (يجب أن يكون z-index أعلى من طبقة التعتيم z-20) */}
+      {/* المحتوى الأمامي */}
       <NavBar />
       <div className="absolute w-full h-full bg-black/50"></div>
       <div className="relative z-30 flex flex-col items-center justify-center h-full text-center px-4">
