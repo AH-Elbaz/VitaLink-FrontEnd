@@ -9,10 +9,11 @@ export default function HomePage() {
     <div className="relative w-full h-screen overflow-hidden">
       <video
         className="absolute w-full h-full object-cover"
-        src="/videos/bg.mp4"
+        src="https://myone.blob.core.windows.net/videocontainer/Futuristic_Smart_Vest_Macro_Shot.mp4"
         autoPlay
         loop
         muted
+        playsInline
       ></video>
         <NavBar />
       <div className="absolute w-full h-full bg-black/50"></div>
