@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  nodeVersion: '18'
+  nodeVersion: '22'
 
 steps:
 - task: UseNode@1

@@ -1,6 +1,6 @@
 "use client";
 import NavBar from "@/components/navbar";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export default function HomePage() {
   // 1. حالة لتتبع جاهزية الفيديو
@@ -15,8 +15,8 @@ export default function HomePage() {
   };
 
   // 3. (اختياري لكن مفيد) إذا لم يعمل التشغيل التلقائي، يمكن للمستخدم النقر
-  const handleVideoClick = (e) => {
-    const video = e.target;
+  const handleVideoClick = (e: React.MouseEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
     if (video.paused) {
       video.play().catch(error => {
         console.error("Autoplay was blocked even on click:", error);
