@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// تم تغيير الاستيراد هنا
+import { Geist, Geist_Mono, Inter } from "next/font/google"; 
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +11,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// **الخط الجديد: Inter (سيستخدم للعناوين)**
+const interHeading = Inter({
+  subsets: ["latin"],
+  weight: ['400', '700', '800', '900'], // استيراد الأوزان المطلوبة
+  variable: "--font-heading", // تعريف متغير CSS جديد
 });
 
 export const metadata: Metadata = {
@@ -25,7 +33,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        // تم إضافة المتغير الجديد إلى الكلاسات المتاحة
+        className={`${geistSans.variable} ${geistMono.variable} ${interHeading.variable} antialiased`}
       >
         {children}
       </body>
