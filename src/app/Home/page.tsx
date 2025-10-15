@@ -51,13 +51,19 @@ export default function HomePage() {
       <NavBar />
       <div className="absolute w-full h-full bg-black/50"></div>
       <div className="relative z-30 flex flex-col items-center justify-center h-full text-center px-4">
-        <h1 className="text-white text-5xl md:text-6xl font-bold mb-4">
-          Understand Your Health from the Inside Out
+        <h1 className="text-white font-bold mb-6" style={{fontSize: '4rem', lineHeight: '1.1'}}>
+          Understand your health from the<br />
+          inside out
         </h1>
-        <p className="text-white text-lg md:text-xl max-w-xl">
-          Track your sleep, recovery, and daily activity with vitaLink <br />
-          Make smarter health choices today for a stronger tomorrow.
+        <p className="text-white text-lg md:text-xl max-w-2xl mb-8" style={{fontWeight: 400}}>
+          From sleep and recovery to what’s happening inside your body, WHOOP brings it all together — make smarter choices today that add more years to your life.
         </p>
+        <button
+          className="bg-white text-black font-semibold rounded-xl px-8 py-4 text-lg shadow hover:bg-gray-100 transition mb-2"
+          style={{letterSpacing: '1px'}}
+        >
+          EXPLORE ADVANCED LABS
+        </button>
       </div>
     </div>
   );
