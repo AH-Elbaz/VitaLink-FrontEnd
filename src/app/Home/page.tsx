@@ -1,38 +1,55 @@
 "use client";
 import NavBar from "@/components/navbar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Hls from "hls.js";
+
+const HLS_URL = "https://myone.blob.core.windows.net/videocontainer/Futuristic_Smart_Vest_Macro_Shot.mp4"; // <- paste AMS HLS URL
 
 export default function HomePage() {
-  const [videoReady, setVideoReady] = useState(false);
+  const videoRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const video = document.getElementById("bg-video");
-    if (video) {
-      const handleCanPlay = () => setVideoReady(true);
-      video.addEventListener("canplaythrough", handleCanPlay);
-      return () => video.removeEventListener("canplaythrough", handleCanPlay);
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // Safari and iOS
+      video.src = HLS_URL;
+      video.addEventListener("canplay", () => setLoaded(true));
+    } else if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(HLS_URL);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => setLoaded(true));
+      return () => {
+        hls.destroy();
+      };
+    } else {
+      // fallback: try direct src
+      video.src = HLS_URL;
+      video.addEventListener("canplay", () => setLoaded(true));
     }
   }, []);
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {!videoReady && (
+      {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-black text-white z-20">
           Loading video...
         </div>
       )}
 
       <video
+        ref={videoRef}
         id="bg-video"
         className={`absolute w-full h-full object-cover transition-opacity duration-700 ${
-          videoReady ? "opacity-100" : "opacity-0"
+          loaded ? "opacity-100" : "opacity-0"
         }`}
-        src="/videos/bg.mp4"
         autoPlay
         loop
         muted
         playsInline
-        preload="auto"
       />
 
       <NavBar />
@@ -50,3 +67,4 @@ export default function HomePage() {
     </div>
   );
 }
+
