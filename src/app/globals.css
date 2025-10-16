@@ -118,5 +118,14 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Use Inter as the default sans font for headings and optionally body */
+    font-family: var(--font-heading), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue';
+  }
+
+  /* Headings style to match the thin look in the screenshot */
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue';
+    font-weight: 200; /* thin weight */
+    letter-spacing: -0.02em;
   }
 }

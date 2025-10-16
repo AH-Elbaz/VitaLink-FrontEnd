@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 // **الخط الجديد: Inter (للعناوين)**
 const interHeading = Inter({
   subsets: ["latin"],
-  weight: ['400', '600', '700'], // استيراد الأوزان 600 (Semibold) و 700 (Bold)
+  // أضفنا الأوزان الخفيفة (100,200,300) بالإضافة للأوزان المتوسطة والثقيلة
+  weight: ['100','200','300','400', '600', '700'],
   variable: "--font-heading", // تعريف متغير CSS
 });
 

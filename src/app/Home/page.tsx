@@ -23,7 +23,7 @@ export default function HomePage() {
 
       <video
         className="absolute w-full h-full object-cover"
-        poster="/images/video-placeholder-frame.jpg" 
+        // poster="/images/video-placeholder-frame.jpg" 
         autoPlay
         loop
         muted
@@ -34,7 +34,7 @@ export default function HomePage() {
         <source 
           // **رابط الفيديو المضغوط المحلي (Netlify CDN)**
           // تأكد من أن الملف موجود في public/videos/
-          src="/videos/bg.mp4"
+          src="/videos/r.mp4"
           type="video/mp4" 
         />
         Your browser does not support the video tag.
@@ -43,16 +43,23 @@ export default function HomePage() {
       {/* المحتوى الأمامي */}
       <NavBar />
       <div className="absolute w-full h-full bg-black/50"></div>
-      <div className="relative z-30 flex flex-col items-center justify-center h-full text-center px-4">
+      <div className="relative z-30 flex flex-col items-start justify-center h-full text-left px-6 md:px-12 lg:px-20">
         <h1
-          // **الخط Inter، و السمك Bold (700) للحصول على سمك متوسط**
-          className="text-white font-bold mb-6 font-inter-heading" 
-          style={{fontSize: '4rem', lineHeight: '1.1'}}
+          className="text-white mb-6 w-full"
+          style={{
+            fontSize: 'clamp(3.5rem, 10vw, 12rem)',
+            lineHeight: '1.02',
+            fontWeight: 300,
+            letterSpacing: '-0.04em',
+            marginBottom: '1.25rem',
+            maxWidth: 'min(1400px, 92vw)',
+            overflowWrap: 'break-word',
+            wordBreak: 'normal'
+          }}
         >
-          Understand your health from the<br />
-          inside out
+          Understand your health from the inside out
         </h1>
-        <p className="text-white text-lg md:text-xl max-w-2xl mb-8" style={{fontWeight: 400}}>
+        <p className="text-white text-base md:text-lg lg:text-xl max-w-3xl mb-6 md:mb-10" style={{fontWeight: 400}}>
           From sleep and recovery to what’s happening inside your body, WHOOP brings it all together — make smarter choices today that add more years to your life.
         </p>
         <button
