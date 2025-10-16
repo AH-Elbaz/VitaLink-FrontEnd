@@ -32,9 +32,7 @@ export default function HomePage() {
         onCanPlayThrough={handleCanPlayThrough}
       >
         <source 
-          // **رابط الفيديو المضغوط المحلي (Netlify CDN)**
-          // تأكد من أن الملف موجود في public/videos/
-          src="/videos/r.mp4"
+          src="/videos/bg.mp4"
           type="video/mp4" 
         />
         Your browser does not support the video tag.
@@ -57,10 +55,11 @@ export default function HomePage() {
             wordBreak: 'normal'
           }}
         >
-          Understand your health from the inside out
+          <span style={{fontSize: 'clamp(1.8rem, 5.5vw, 5.5rem)', display: 'inline-block', verticalAlign: 'middle'}}>Understand</span>{' '}
+          your health from the inside out
         </h1>
         <p className="text-white text-base md:text-lg lg:text-xl max-w-3xl mb-6 md:mb-10" style={{fontWeight: 400}}>
-          From sleep and recovery to what’s happening inside your body, WHOOP brings it all together — make smarter choices today that add more years to your life.
+          From recovery to what’s happening inside your body, VitaLink brings it all together — make smarter choices today that add more years to your life.
         </p>
         <button
           className="bg-white text-black font-semibold rounded-xl px-8 py-4 text-lg shadow hover:bg-gray-100 transition mb-2"
