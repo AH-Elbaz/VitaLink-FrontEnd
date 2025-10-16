@@ -45,18 +45,17 @@ export default function HomePage() {
         <h1
           className="text-white mb-6 w-full"
           style={{
-            fontSize: 'clamp(3.5rem, 10vw, 12rem)',
-            lineHeight: '1.02',
+            fontSize: 'clamp(1.8rem, 5.5vw, 5.5rem)',
+            lineHeight: '1.3',
             fontWeight: 300,
-            letterSpacing: '-0.04em',
-            marginBottom: '1.25rem',
+            letterSpacing: '-0.02em',
+            marginBottom: '1rem',
             maxWidth: 'min(1400px, 92vw)',
             overflowWrap: 'break-word',
             wordBreak: 'normal'
           }}
         >
-          <span style={{fontSize: 'clamp(1.8rem, 5.5vw, 5.5rem)', display: 'inline-block', verticalAlign: 'middle'}}>Understand</span>{' '}
-          your health from the inside out
+          Understand your health from the inside out
         </h1>
         <p className="text-white text-base md:text-lg lg:text-xl max-w-3xl mb-6 md:mb-10" style={{fontWeight: 400}}>
           From recovery to what’s happening inside your body, VitaLink brings it all together — make smarter choices today that add more years to your life.
