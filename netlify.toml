@@ -4,7 +4,7 @@
   # publish directory (set in the UI) will not be equal to the base dir.
   base = "VitaLink-FrontEnd-main"
   command = "npm install; npm run build"
-  publish = ""
+  publish = "VitaLink-FrontEnd-main/.netlify/output"
   functions = "VitaLink-FrontEnd-main/netlify/functions"
 
 [[plugins]]
