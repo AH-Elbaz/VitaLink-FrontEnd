@@ -1,0 +1,9 @@
+- [x] Update the underline animation in navbar.tsx to use Tailwind transition instead of custom keyframes
+- [x] Remove the styled-jsx block for the animation
+- [x] Implement new animation with ::after pseudo-element for green underline that appears and moves quickly from left to right on hover, then fades out smoothly
+- [x] Fix animation issues by using transition-all and opacity classes instead of custom keyframes
+- [x] Create CSS animation for navigation links where a green underline border appears and moves quickly from left to right on hover, then fades out smoothly as if it finished its movement. The underline should not stay visible after the animation ends.
+- [x] Remove unused styled-jsx block and use pure Tailwind classes for smooth animation
+- [x] Implement CSS animation with scaleX transform and opacity for smooth expand and fade out
+- [x] Fix animation triggering on page load by removing initial animation and only triggering on hover
+- [ ] Test the navbar animation by running the app and hovering over links
