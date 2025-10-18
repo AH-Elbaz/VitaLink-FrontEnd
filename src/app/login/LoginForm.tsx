@@ -7,9 +7,9 @@ export default function LoginForm() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    login(name, password);  
+    login(name, password);
   };
 
   return (<div

@@ -25,7 +25,7 @@ export function useAuth() {
       Cookies.set("token", token, { expires: 1 / 12 });
 
       // فكّ الـ token علشان تجيب الاسم
-      const decoded = jwtDecode<any>(token);
+  const decoded = jwtDecode<Record<string, string>>(token);
       const name =
         decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] ||
         res.data.firstName ||
@@ -35,8 +35,12 @@ export function useAuth() {
       setUser({
         firstName: name,
         lastName: "",
-        role: res.data.role ?? 0,
-        email: "", // ممكن تضيفها لو backend بيرجعها
+        password: "",
+        birthDate: new Date().toISOString(),
+        weight: 0,
+        bodyFatPercentage: 0,
+        bloodType: "O+",
+        targetSport: "",
       });
 
       router.push("/dashboard");
@@ -61,7 +65,7 @@ export function useAuth() {
       const token = res.data.accessToken;
       Cookies.set("token", token, { expires: 1 / 12 });
 
-      const decoded = jwtDecode<any>(token);
+  const decoded = jwtDecode<Record<string, string>>(token);
       const name =
         decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] ||
         res.data.firstName ||
@@ -70,8 +74,12 @@ export function useAuth() {
       setUser({
         firstName: name,
         lastName: "",
-        role: res.data.role ?? 0,
-        email: "",
+        password: "",
+        birthDate: new Date().toISOString(),
+        weight: 0,
+        bodyFatPercentage: 0,
+        bloodType: "O+",
+        targetSport: "",
       });
 
       router.push("/login");

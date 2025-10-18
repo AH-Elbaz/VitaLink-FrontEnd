@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-<<<<<<< HEAD
+
 :root {
   --neon-blue: #00FFFF; /* Cyan circuits glow */
   --dark-background: #000000; /* Base background */
@@ -23,8 +23,7 @@
   --vitaneon-text-input: #e0e0e0; /* Input and placeholder text */
 }
 
-=======
->>>>>>> 32f454d55a7577d1e7f975c76c42db847b122e02
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -134,7 +133,7 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-<<<<<<< HEAD
+
 @keyframes gradient-shift {
   0% {
     background-position: 0% 50%;
@@ -151,16 +150,13 @@
   animation: gradient-shift 3s ease infinite;
 }
 
-=======
->>>>>>> 32f454d55a7577d1e7f975c76c42db847b122e02
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-<<<<<<< HEAD
-=======
+
     /* Use Inter as the default sans font for headings and optionally body */
     font-family: var(--font-heading), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue';
   }
@@ -170,6 +166,6 @@
     font-family: var(--font-heading), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue';
     font-weight: 200; /* thin weight */
     letter-spacing: -0.02em;
->>>>>>> 32f454d55a7577d1e7f975c76c42db847b122e02
+
   }
 }

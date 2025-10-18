@@ -73,7 +73,7 @@ export default function SignupForm() {
       birthDate: new Date(form.birthDate).toISOString(),
       weight: parseFloat(form.weight),
       bodyFatPercentage: parseFloat(form.fatPercentage),
-      bloodType: form.bloodType,
+      bloodType: form.bloodType as User['bloodType'],
       targetSport: form.targetSport,
     };
 
@@ -88,7 +88,7 @@ export default function SignupForm() {
             Sign Up
           </h2>
           <p className="text-gray-300 text-sm mt-1">
-            Join <span className="text-[var(--neon-blue)] font-semibold">VitaLink</span> - Discover your body's inner data.
+            Join <span className="text-[var(--neon-blue)] font-semibold">VitaLink</span> - Discover your body&apos;s inner data.
           </p>
           <div className="w-full h-[2px] bg-gradient-to-r from-[var(--button-gradient-start)] to-[var(--button-gradient-end)] mt-3 rounded-full"></div>
         </div>

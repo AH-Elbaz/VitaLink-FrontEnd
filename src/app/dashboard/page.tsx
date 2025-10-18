@@ -12,13 +12,13 @@ export default function DashboardPage() {
 
     if (token) {
       try {
-        const decoded = jwtDecode<any>(token);
+        const decoded = jwtDecode<Record<string, string>>(token);
         const extractedName =
           decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] ||
           "User";
         setName(extractedName);
       } catch (error) {
-        console.error("Invalid token:", error);
+        console.error("Invalid token:", error);   
       }
     }
   }, []);
