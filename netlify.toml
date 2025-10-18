@@ -1,14 +1,7 @@
 [build]
-  # The repository contains the actual Next app inside a subfolder.
-  # Set `base` to that folder so Netlify runs the build there and the
-  # publish directory (set in the UI) will not be equal to the base dir.
-  base = "VitaLink-FrontEnd-main"
-  command = "npm install; npm run build"
-  publish = "VitaLink-FrontEnd-main/.netlify/output"
-  functions = "VitaLink-FrontEnd-main/netlify/functions"
+  command = "npm run build"
+  publish = ".next"                # Next.js build output
+
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-# For Netlify's Next.js plugin the publish directory is managed by the plugin.
-# Leave `publish` empty here so Netlify uses the plugin's output.
