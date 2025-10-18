@@ -1,0 +1,10 @@
+[build]
+  command = "npm install; npm run build"
+  publish = ""
+  functions = "./netlify/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# For Netlify's Next.js plugin the publish directory is managed by the plugin.
+# Leave `publish` empty here so Netlify uses the plugin's output.

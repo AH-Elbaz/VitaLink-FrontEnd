@@ -6,8 +6,8 @@
     "node": ">=18 <23"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+  "dev": "next dev",
+  "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
