@@ -3,6 +3,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
 import axiosInstance from "@/lib/axiosInstance";
+import { User } from '@/app/models';
 import { useRouter } from "next/navigation";
 
 export function useAuth() {
@@ -68,5 +69,5 @@ export function useAuth() {
     router.push("/login");
   };
 
-  return { loading, error, login, signup, logout };
+  return { loading, error, login, signup, logout };
 }

@@ -1,5 +1,4 @@
 // models/User.ts
-
 export interface User {
   firstName: string;
   lastName: string;

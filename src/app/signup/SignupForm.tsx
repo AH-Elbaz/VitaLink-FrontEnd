@@ -106,7 +106,7 @@ export default function SignupForm() {
       birthDate: new Date(form.birthDate).toISOString(),
       weight: parseFloat(form.weight),
       bodyFatPercentage: parseFloat(form.fatPercentage),
-      bloodType: form.bloodType,
+  bloodType: form.bloodType as User['bloodType'],
       targetSport: form.targetSport,
     };
 
