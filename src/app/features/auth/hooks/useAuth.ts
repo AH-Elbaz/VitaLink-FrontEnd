@@ -4,11 +4,8 @@ import Cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
 import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
-import type { User } from "@/app/models"; // استدعاء الـ interfaces
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -23,25 +20,6 @@ export function useAuth() {
       // خزن الـ accessToken فقط
       const token = res.data.accessToken;
       Cookies.set("token", token, { expires: 1 / 12 });
-
-      // فكّ الـ token علشان تجيب الاسم
-  const decoded = jwtDecode<Record<string, string>>(token);
-      const name =
-        decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] ||
-        res.data.firstName ||
-        "User";
-
-      // خزن بيانات المستخدم
-      setUser({
-        firstName: name,
-        lastName: "",
-        password: "",
-        birthDate: new Date().toISOString(),
-        weight: 0,
-        bodyFatPercentage: 0,
-        bloodType: "O+",
-        targetSport: "",
-      });
 
       router.push("/dashboard");
     } catch (err) {
@@ -61,26 +39,9 @@ export function useAuth() {
     setError(null);
     try {
       const res = await axiosInstance.post("/api/auth/register", data);
-
+      
       const token = res.data.accessToken;
       Cookies.set("token", token, { expires: 1 / 12 });
-
-  const decoded = jwtDecode<Record<string, string>>(token);
-      const name =
-        decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] ||
-        res.data.firstName ||
-        "User";
-
-      setUser({
-        firstName: name,
-        lastName: "",
-        password: "",
-        birthDate: new Date().toISOString(),
-        weight: 0,
-        bodyFatPercentage: 0,
-        bloodType: "O+",
-        targetSport: "",
-      });
 
       router.push("/login");
     } catch (err) {
@@ -104,9 +65,8 @@ export function useAuth() {
   // ✅ Logout
   const logout = () => {
     Cookies.remove("token");
-    setUser(null);
     router.push("/login");
   };
 
-  return { user, loading, error, login, signup, logout };
+  return { loading, error, login, signup, logout };
 }
