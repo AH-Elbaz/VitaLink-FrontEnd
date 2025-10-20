@@ -1,8 +1,8 @@
-# 🚀 Build and deploy a Next.js / Node.js front-end app to Azure Web App
+# 🚀 Build and deploy a Next.js SSR app to Azure Web App
 # Docs: https://github.com/Azure/webapps-deploy
-# Author: ChatGPT (optimized for low storage)
+# Author: ChatGPT (SSR-optimized version)
 
-name: Build and deploy Node.js front-end app to Azure Web App - vitalink
+name: Build and deploy Next.js app to Azure Web App - vitalink
 
 on:
   push:
@@ -29,27 +29,24 @@ jobs:
         run: npm ci
 
       - name: 🏗️ Build project
-        run: npm run build --if-present
+        run: npm run build
 
-      - name: 📤 Export static files (reduce package size)
+      - name: 🧹 Clean up cache and temp files
         run: |
-          if [ -f package.json ] && grep -q '"export"' package.json; then
-            npm run export
-          else
-            mkdir -p out && cp -r public/* out/ || true
-          fi
-
-      - name: 🧹 Clean unnecessary files before upload
-        run: |
-          rm -rf node_modules
+          rm -rf node_modules/.cache || true
           rm -rf .next/cache || true
-          rm -rf tmp || true
 
-      - name: 📦 Upload artifact for deployment
+      - name: 📦 Upload build artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: out
+          path: |
+            .next
+            package.json
+            next.config.* 
+            public
+            node_modules
+            tsconfig.json
 
   deploy:
     runs-on: ubuntu-latest
@@ -63,7 +60,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-output
-          path: ./out
+          path: ./
 
       - name: 🔐 Login to Azure
         uses: azure/login@v2
@@ -85,4 +82,4 @@ jobs:
         with:
           app-name: 'vitalink'
           slot-name: 'Production'
-          package: ./out
+          package: .
